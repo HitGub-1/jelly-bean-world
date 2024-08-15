@@ -17,6 +17,8 @@ from distutils.command.build_ext import build_ext
 from os import environ
 import numpy as np
 
+from pathlib import Path
+
 extra_compile_args = {
     'msvc' : ['/W3', '/GT', '/Gy', '/Oi', '/Ox', '/Ot', '/Oy', '/DNDEBUG', '/DUNICODE'],
     'unix' : ['-std=c++11', '-Wall', '-Wpedantic', '-Ofast', '-DNDEBUG', '-fno-stack-protector', '-mtune=native', '-march=native']}
@@ -49,7 +51,14 @@ simulator_c = Extension(
   # library_dirs = ['/usr/local/lib'],
   sources = ['src/jbw/simulator.cpp'])
 
-with open('../../README.md', 'r') as f:
+curdir = Path.cwd()
+
+
+# this command didn't work as the current directory was the root and not two levels down
+# so perhaps it is supposed to be executed by another module elsewhere in the project?
+# with open('../../README.md', 'r') as f:         
+
+with open('README.md', 'r') as f:    
     readme = f.read()
 setup(
   name = 'jbw',

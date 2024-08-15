@@ -22,3 +22,6 @@ vs/x64/
 
 # Swift Package Manager
 **/.build/**/*
+
+# venv
+.venv/*
