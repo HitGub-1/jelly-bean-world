@@ -14,10 +14,12 @@
 
 from distutils.core import setup, Extension
 from distutils.command.build_ext import build_ext
-from os import environ
+#from os import environ
+import os 
+
 import numpy as np
 
-from pathlib import Path
+
 
 extra_compile_args = {
     'msvc' : ['/W3', '/GT', '/Gy', '/Oi', '/Ox', '/Ot', '/Oy', '/DNDEBUG', '/DUNICODE'],
@@ -26,10 +28,10 @@ extra_link_args = {
     'msvc' : ['ws2_32.lib']}
 
 # on Mac, if gcc is used, '-Qunused-arguments' will throw an error
-if 'CFLAGS' in environ:
-  environ['CFLAGS'] = environ['CFLAGS'].replace('-Qunused-arguments', '')
-if 'CPPFLAGS' in environ:
-  environ['CPPFLAGS'] = environ['CPPFLAGS'].replace('-Qunused-arguments', '')
+if 'CFLAGS' in os.environ:
+  os.environ['CFLAGS'] = os.environ['CFLAGS'].replace('-Qunused-arguments', '')
+if 'CPPFLAGS' in os.environ:
+  os.environ['CPPFLAGS'] = os.environ['CPPFLAGS'].replace('-Qunused-arguments', '')
 
 class build_ext_subclass(build_ext):
   def build_extensions(self):
@@ -51,14 +53,15 @@ simulator_c = Extension(
   # library_dirs = ['/usr/local/lib'],
   sources = ['src/jbw/simulator.cpp'])
 
-curdir = Path.cwd()
 
+# the current directory was the root and not two levels down
+# so resetting it here
+# HACK!
+# os.chdir(os.getcwd() + "\\api\\python\\")
 
-# this command didn't work as the current directory was the root and not two levels down
-# so perhaps it is supposed to be executed by another module elsewhere in the project?
-# with open('../../README.md', 'r') as f:         
+with open('../../README.md', 'r') as f:         
 
-with open('README.md', 'r') as f:    
+# with open('README.md', 'r') as f:    
     readme = f.read()
 setup(
   name = 'jbw',
